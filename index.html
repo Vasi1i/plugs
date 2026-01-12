@@ -569,7 +569,7 @@
 
                         <div class="input-group">
 <!--                            <p>Загрузите логотип из файла (положите файл logo.png в папку с этим HTML-файлом)</p>-->
-                            <button id="load-local-logo" class="logo-btn" disabled style="width: 100%;">Загрузить готовый логотип</button>
+<!--                            <button id="load-local-logo" class="logo-btn" disabled style="width: 100%;">Загрузить готовый логотип</button>-->
                         </div>
 
                         <div class="file-upload">
@@ -1178,7 +1178,7 @@
         const logoRadio = document.querySelector('input[name="logo"]:checked');
         const logoOptions = document.getElementById('logo-options');
         const logoTypeRadios = document.querySelectorAll('input[name="logo-type"]');
-        const loadLocalLogoBtn = document.getElementById('load-local-logo');
+        // const loadLocalLogoBtn = document.getElementById('load-local-logo');
         const logoFileInput = document.getElementById('logo-file');
 
         if (logoRadio.value === 'with-logo') {
@@ -1189,7 +1189,7 @@
                     radio.checked = true;
                 }
             });
-            loadLocalLogoBtn.disabled = false;
+            // loadLocalLogoBtn.disabled = false;
             logoFileInput.disabled = false;
 
             // Показываем placeholder, если логотип не загружен
@@ -1199,7 +1199,7 @@
         } else {
             logoOptions.classList.remove('active');
             logoTypeRadios.forEach(radio => radio.disabled = true);
-            loadLocalLogoBtn.disabled = true;
+            // loadLocalLogoBtn.disabled = true;
             logoFileInput.disabled = true;
 
             // Скрываем контролы для логотипа
@@ -1225,10 +1225,10 @@
     });
 
     // Обработчик для загрузки локального логотипа (файл logo.png в той же папке)
-    document.getElementById('load-local-logo').addEventListener('click', function() {
-        document.getElementById('logo-status').textContent = 'Загрузка логотипа...';
-        loadLogoFromUrl('logo.png');
-    });
+    // document.getElementById('load-local-logo').addEventListener('click', function() {
+    //     document.getElementById('logo-status').textContent = 'Загрузка логотипа...';
+    //     loadLogoFromUrl('logo.png');
+    // });
 
     // Обработчик для загрузки файла с компьютера
     document.getElementById('logo-file').addEventListener('change', function(e) {
