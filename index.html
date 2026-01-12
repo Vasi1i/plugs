@@ -490,34 +490,21 @@
                 width: 100%;
             }
 
-            /*.preview-container {*/
-            /*    min-height: 70vh;*/
-            /*    max-height: 55vh;*/
-            /*    height: 50vh;*/
-            /*}*/
-
             .preview-container {
-                min-height: auto;
-                max-height: none;
-                height: auto;
-                justify-content: flex-start;
+                min-height: 70vh;
+                max-height: 55vh;
+                height: 50vh;
+            }
+
+            .canvas-wrapper {
+                height: 50% !important;
+                max-height: 400px;
             }
 
             /*.canvas-wrapper {*/
-            /*    height: 50% !important;*/
-            /*    max-height: 400px;*/
+            /*    max-width: 100%;*/
+            /*    height: 350px;*/
             /*}*/
-
-            .canvas-wrapper {
-                width: 100% !important;
-                height: auto !important; /* Убираем фиксированную высоту */
-                aspect-ratio: 1/1; /* Сохраняем квадратную форму */
-                max-width: 400px;
-                max-height: 400px;
-                margin: 0 auto 20px;
-            }
-
-
 
             .logo-actions {
                 justify-content: center;
@@ -914,94 +901,78 @@
     let maskCircle = null;
 
     function initCanvas() {
-        const canvasContainer = document.querySelector('.canvas-wrapper');
-        const containerWidth = canvasContainer.clientWidth;
-        const canvasSize = Math.min(containerWidth, 400); // Максимум 400px, но адаптивно
-
         canvas = new fabric.Canvas('plug-canvas', {
-            width: canvasSize,
-            height: canvasSize,
+            width: 400,
+            height: 400,
+            // backgroundColor: '#ffffff',
             backgroundColor: 'transparent',
             preserveObjectStacking: true
         });
 
-        // Обновляем функцию отрисовки заглушки
-        drawPlugBase(canvasSize);
-
-        // Обработчик изменения размера окна
-        window.addEventListener('resize', function() {
-            resizeCanvas();
-        });
-    }
-
-    function drawPlugBase(canvasSize) {
-        // Очищаем canvas
-        canvas.clear();
-
-        const center = canvasSize / 2;
-        const radius = canvasSize * 0.375; // 75% от половины размера canvas
-
-        // Создаем базовую форму заглушки (серый круг)
-        const plugBase = new fabric.Circle({
-            left: center,
-            top: center,
-            radius: radius,
-            fill: '#e0e0e0',
-            stroke: '#b0b0b0',
-            strokeWidth: 2,
-            selectable: false,
-            evented: false,
-            originX: 'center',
-            originY: 'center'
-        });
+        // Создаем базовое изображение заглушки (простой круг с отверстиями)
+        drawPlugBase();
 
         // Создаем маску в виде круга (область для логотипа)
         maskCircle = new fabric.Circle({
-            left: center,
-            top: center,
-            radius: radius * 0.85, // Чуть меньше основного круга
+            left: 150,
+            top: 150,
+            radius: 130,
             fill: 'transparent',
             stroke: 'rgba(52, 152, 219, 0.5)',
             strokeWidth: 0,
             strokeDashArray: [5, 5],
             selectable: false,
-            evented: false,
-            originX: 'center',
-            originY: 'center'
+            evented: false
         });
 
-        // Добавляем все элементы на canvas
-        canvas.add(plugBase);
         canvas.add(maskCircle);
         canvas.sendToBack(maskCircle);
 
-        // Сохраняем ссылку на основное изображение заглушки
-        plugImage = plugBase;
+        // Прячем placeholder при инициализации canvas
+        document.getElementById('canvas-placeholder').style.display = 'none';
     }
 
-    // Функция для изменения размера canvas при ресайзе
-    function resizeCanvas() {
-        const canvasContainer = document.querySelector('.canvas-wrapper');
-        const containerWidth = canvasContainer.clientWidth;
-        const canvasSize = Math.min(containerWidth, 400);
+    function drawPlugBase() {
+        // Очищаем canvas
+        canvas.clear();
 
-        canvas.setDimensions({
-            width: canvasSize,
-            height: canvasSize
+        // Создаем базовую форму заглушки (серый круг)
+        const plugBase = new fabric.Circle({
+            left: 0,
+            top: 0,
+            radius: 150,
+            fill: '#e0e0e0',
+            stroke: '#b0b0b0',
+            strokeWidth: 2,
+            selectable: false,
+            evented: false
         });
 
-        // Перерисовываем элементы с новыми размерами
-        drawPlugBase(canvasSize);
+        // Создаем отверстия для подрозетников
+        const holes = [
+            // {left: 150, top: 150, radius: 10},
+            // {left: 200, top: 150, radius: 10},
+            // {left: 150, top: 200, radius: 10},
+            // {left: 200, top: 200, radius: 10}
+        ];
 
-        // Если есть логотип, перезагружаем его
-        if (logoImage) {
-            setTimeout(() => {
-                const currentLogo = logoImage.toDataURL();
-                loadLogoFromUrl(currentLogo);
-            }, 100);
-        }
+        const holeObjects = holes.map(hole => new fabric.Circle({
+            left: hole.left,
+            top: hole.top,
+            radius: hole.radius,
+            fill: '#ffffff',
+            stroke: '#b0b0b0',
+            strokeWidth: 1,
+            selectable: false,
+            evented: false
+        }));
 
-        canvas.renderAll();
+        // Добавляем все элементы на canvas
+        canvas.add(plugBase);
+        holeObjects.forEach(hole => canvas.add(hole));
+
+        // Сохраняем ссылку на основное изображение заглушки
+        plugImage = plugBase;
     }
 
     function loadLogoFromUrl(url) {
