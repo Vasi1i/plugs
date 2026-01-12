@@ -980,30 +980,22 @@
     }
 
     function loadLogoFromUrl(url) {
-        fabric.Image.fromURL(url, function(img) {
-            // Удаляем предыдущий логотип, если есть
+        fabric.Image.fromURL(url, function (img) {
+            // Удаляем предыдущий логотип если был
             if (logoImage) {
                 canvas.remove(logoImage);
+                logoImage = null;
             }
 
-            // Устанавливаем начальные параметры для логотипа
-            const scale = Math.min(1, 100 / Math.max(img.width, img.height));
+            // Начальный масштаб — стараемся вписать в разумный размер
+            const initialScale = Math.min(1, 100 / Math.max(img.width, img.height));
 
-            // Создаем маску в виде круга для обрезки логотипа
-            const clipMask = new fabric.Circle({
-                radius: maskCircle.radius,
-                left: 0,
-                top: 0,
-                originX: 'center',
-                originY: 'center',
-                absolutePositioned: true
-            });
-
+            // Подготавливаем объект изображения
             img.set({
                 left: maskCircle.left,
                 top: maskCircle.top,
-                scaleX: scale,
-                scaleY: scale,
+                scaleX: initialScale,
+                scaleY: initialScale,
                 originX: 'center',
                 originY: 'center',
                 selectable: true,
@@ -1012,39 +1004,66 @@
                 lockUniScaling: false,
                 cornerColor: '#3498db',
                 cornerSize: 10,
-                transparentCorners: false,
-                clipPath: clipMask // Применяем маску для обрезки
+                transparentCorners: false
             });
 
-            // Добавляем логотип на canvas
+            // Сначала добавляем на канвас без clipPath
             canvas.add(img);
             canvas.setActiveObject(img);
+
+            // Принудительно обновляем координаты и рендерим
+            img.setCoords();
             canvas.renderAll();
 
-            // Сохраняем ссылку на логотип
+            // Теперь создаём и применяем маску-обрезку
+            const clipMask = new fabric.Circle({
+                radius: maskCircle.radius,
+                left: maskCircle.left,
+                top: maskCircle.top,
+                originX: 'center',
+                originY: 'center',
+                absolutePositioned: true
+            });
+
+            img.clipPath = clipMask;
+
+            // Самое важное — заставляем fabric отрисовать объект после установки clipPath
+            // Вариант 1 — микросдвиг (чаще всего помогает)
+            img.left += 0.01;
+            canvas.renderAll();
+            img.left -= 0.01;
+            canvas.renderAll();
+
+            // Вариант 2 — дополнительная страховка (можно оставить или убрать)
+            // img.setCoords();
+            // canvas.requestRenderAll();
+
+            // Сохраняем ссылку
             logoImage = img;
 
-            // Показываем контролы для управления логотипом
+            // Показываем элементы управления
             document.getElementById('logo-controls').style.display = 'block';
-            document.getElementById('logo-status').textContent = 'Логотип загружен. Перетаскивайте для перемещения, используйте углы для масштабирования.';
+            document.getElementById('logo-status').textContent =
+                'Логотип загружен. Перетаскивайте для перемещения, используйте углы для масштабирования.';
 
             // Скрываем placeholder
             document.getElementById('canvas-placeholder').style.display = 'none';
 
-            // Применяем фильтры в зависимости от выбранного типа логотипа
+            // Применяем фильтры (монохром/цветной)
             applyLogoFilters();
 
-            // Обновляем маску при изменении логотипа
+            // Подписываемся на события изменения положения/масштаба
             logoImage.on('moving', updateLogoMask);
             logoImage.on('scaling', updateLogoMask);
             logoImage.on('rotating', updateLogoMask);
 
         }, {
             crossOrigin: 'anonymous'
-        }, function(err) {
+        }, function (err) {
             console.error('Ошибка загрузки изображения:', err);
-            document.getElementById('logo-status').textContent = 'Ошибка загрузки изображения. Проверьте путь к файлу.';
-            alert('Не удалось загрузить изображение. Проверьте путь к файлу.');
+            document.getElementById('logo-status').textContent =
+                'Ошибка загрузки изображения. Проверьте путь к файлу или формат.';
+            alert('Не удалось загрузить изображение. Проверьте файл.');
         });
     }
 
