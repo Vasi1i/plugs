@@ -66,7 +66,7 @@
         }
 
         .left-container, .right-container {
-            flex: 0 0 50%; /* Каждый контейнер занимает 50% ширины */
+            flex: 0 0 50%;
             padding: 30px;
         }
 
@@ -105,7 +105,6 @@
             border-bottom-color: #9b59b6;
         }
 
-        /* Стили для формы в левом контейнере */
         .form-section {
             margin-bottom: 25px;
             padding-bottom: 20px;
@@ -146,12 +145,12 @@
             margin: 0;
             width: 18px;
             height: 18px;
-            flex-shrink: 0; /* Чекбокс не сжимается */
+            flex-shrink: 0;
         }
 
         .input-group.checkbox-group .checkbox-label {
-            flex: 1; /* Надпись занимает все оставшееся пространство */
-            white-space: normal; /* Разрешаем перенос текста */
+            flex: 1;
+            white-space: normal;
             word-wrap: break-word;
         }
 
@@ -259,7 +258,6 @@
             min-height: 80px;
         }
 
-        /* Стили для предпросмотра в правом контейнере */
         .preview-container {
             flex: 1;
             display: flex;
@@ -269,16 +267,31 @@
         }
 
         .canvas-wrapper {
+            position: relative;
             width: 100%;
             max-width: 400px;
             height: 400px;
             border: none;
             border-radius: 8px;
             overflow: hidden;
-            background: transparent;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+            box-shadow:
+                    inset 0 0 20px rgba(0, 0, 0, 0.1),
+                    0 8px 25px rgba(0, 0, 0, 0.15);
             margin: 0 auto 20px;
-            position: relative;
+        }
+
+        .canvas-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(255,255,255,0));
+            border-radius: 8px 8px 0 0;
+            pointer-events: none;
+            z-index: 2;
         }
 
         #plug-canvas {
@@ -297,7 +310,8 @@
             justify-content: center;
             color: #7f8c8d;
             font-style: italic;
-            background-color: #f9f9f9;
+            background-color: rgba(249, 249, 249, 0.8);
+            z-index: 1;
         }
 
         .logo-controls {
@@ -356,7 +370,6 @@
             cursor: not-allowed;
         }
 
-        /* Стили для загрузки файла */
         .file-upload {
             margin-top: 15px;
         }
@@ -380,7 +393,6 @@
             background-color: #2980b9;
         }
 
-        /* Стили для формы в нижнем контейнере */
         .form-row {
             display: flex;
             flex-wrap: wrap;
@@ -432,7 +444,6 @@
             margin-top: 5px;
         }
 
-        /* Кнопка отправки */
         .submit-section {
             margin-top: 30px;
             padding-top: 20px;
@@ -474,7 +485,6 @@
             color: #7f8c8d;
         }
 
-        /* Адаптивность для мобильных устройств */
         @media (max-width: 768px) {
             .horizontal-container {
                 flex-direction: column;
@@ -486,19 +496,17 @@
                 border-right: none;
             }
 
-            /* Изменяем порядок: правый контейнер будет сверху */
             .right-container {
-                order: -1; /* Правая колонка будет первой */
+                order: -1;
                 border-bottom: 1px solid #e0e6ef;
             }
 
             .left-container {
-                order: 1; /* Левая колонка будет второй */
+                order: 1;
             }
 
-            /* Нижний контейнер остается последним всегда */
             .bottom-container {
-                order: 2; /* Самый нижний на мобильных устройствах */
+                order: 2;
             }
 
             .form-row {
@@ -515,23 +523,19 @@
                 height: 50vh;
             }
 
-            /*.canvas-wrapper {*/
-            /*    height: 50% !important;*/
-            /*    max-height: 400px;*/
-            /*}*/
-
             .canvas-wrapper {
-                height: 300px !important; /* Фиксированная высота */
+                height: 300px;
                 max-height: 300px;
-                overflow: visible; /* Важно! */
+                box-shadow:
+                        inset 0 0 15px rgba(0, 0, 0, 0.1),
+                        0 6px 20px rgba(0, 0, 0, 0.12);
+                overflow: visible;
             }
 
             #plug-canvas {
                 width: 100% !important;
                 height: 100% !important;
             }
-
-
 
             .logo-actions {
                 justify-content: center;
@@ -548,30 +552,12 @@
                 display: none !important;
             }
 
-            /*.checkbox-group {*/
-            /*    display: flex;*/
-            /*    align-items: center;*/
-            /*    gap: 8px;*/
-            /*    margin-bottom: 15px;*/
-            /*}*/
-
             .input-group.checkbox-group {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 gap: 10px;
                 margin-bottom: 15px;
-            }
-
-            .footer {
-                margin-top: 30px;
-                padding: 20px;
-                text-align: center;
-                color: #7f8c8d;
-                font-size: 0.9rem;
-                border-top: 1px solid #e0e6ef;
-                width: 100%;
-                order: 100; /* Убедимся, что футер всегда последний */
             }
         }
     </style>
@@ -606,31 +592,7 @@
                     </div>
 
                     <div id="logo-options" class="sub-options">
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="logo-type" value="color" disabled>
-                                <span class="radio-custom"></span>
-                                Цветной
-                            </label>
-
-                            <label class="radio-option">
-                                <input type="radio" name="logo-type" value="monochrome" disabled>
-                                <span class="radio-custom"></span>
-                                Монохром
-                            </label>
-                        </div>
-
-                        <div class="input-group">
-<!--                            <p>Загрузите логотип из файла (положите файл logo.png в папку с этим HTML-файлом)</p>-->
-<!--                            <button id="load-local-logo" class="logo-btn" disabled style="width: 100%;">Загрузить готовый логотип</button>-->
-                        </div>
-
                         <div class="file-upload">
-<!--                            <p style="margin-top: 15px;">Или выберите другой файл:</p>-->
-                            <p style="margin-bottom: 10px; color: #666; font-size: 0.9rem;">
-                                <strong>Форматы логотипа:</strong> PNG, JPG, JPEG, GIF, SVG, BMP, WebP<br>
-                                <span style="font-size: 0.85rem;">Рекомендуется PNG с прозрачным фоном</span>
-                            </p>
                             <input type="file" id="logo-file" accept="image/*" disabled>
                             <label for="logo-file">Загрузить свой логотип</label>
                             <p id="selected-file" style="font-size: 0.9rem; margin-top: 5px; color: #666;"></p>
@@ -733,13 +695,11 @@
                 </div>
 
                 <div class="logo-controls" id="logo-controls" style="display: none;">
-<!--                    <h4>Управление логотипом</h4>-->
-<!--                    <p>Перетаскивайте логотип для перемещения. Используйте углы для масштабирования.</p>-->
                     <div class="logo-actions">
                         <button class="logo-btn" id="center-logo">По центру</button>
                         <button class="logo-btn" id="fit-logo">Вписать</button>
                         <button class="logo-btn" id="reset-logo">Сбросить</button>
-<!--                        <button class="logo-btn reset" id="remove-logo">Удалить логотип</button>-->
+                        <button class="logo-btn reset" id="remove-logo">Удалить</button>
                     </div>
                     <p id="logo-status" style="margin-top: 10px; font-size: 0.8rem;"></p>
                 </div>
@@ -756,9 +716,7 @@
                     <div class="form-section">
                         <h3>Количество</h3>
                         <div class="input-group">
-<!--                            <input type="number" id="quantity" min="1" placeholder="Введите количество">-->
                             <input type="number" id="quantity" placeholder="Введите количество">
-
                         </div>
                     </div>
 
@@ -799,74 +757,7 @@
                         </div>
                     </div>
 
-<!--                    <div class="form-section">-->
-<!--                        <h3>Тестовые образцы перед серией</h3>-->
-<!--                        <div class="radio-group">-->
-<!--                            <label class="radio-option">-->
-<!--                                <input type="radio" name="samples" value="needed" checked>-->
-<!--                                <span class="radio-custom"></span>-->
-<!--                                Нужны-->
-<!--                            </label>-->
-
-<!--                            <label class="radio-option">-->
-<!--                                <input type="radio" name="samples" value="not-needed">-->
-<!--                                <span class="radio-custom"></span>-->
-<!--                                Не нужны-->
-<!--                            </label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="form-section">-->
-<!--                        <h3>Упаковка и маркировка (можно несколько)</h3>-->
-<!--                        <div class="checkbox-group">-->
-<!--                            <label class="checkbox-option">-->
-<!--                                <input type="checkbox" name="packaging" value="no-packaging">-->
-<!--                                <span class="checkbox-custom"></span>-->
-<!--                                Без упаковки-->
-<!--                            </label>-->
-
-<!--                            <label class="checkbox-option">-->
-<!--                                <input type="checkbox" name="packaging" value="group-box">-->
-<!--                                <span class="checkbox-custom"></span>-->
-<!--                                Групповая коробка-->
-<!--                            </label>-->
-
-<!--                            <label class="checkbox-option">-->
-<!--                                <input type="checkbox" name="packaging" value="individual-bags">-->
-<!--                                <span class="checkbox-custom"></span>-->
-<!--                                Индивидуальные пакеты-->
-<!--                            </label>-->
-
-<!--                            <label class="checkbox-option">-->
-<!--                                <input type="checkbox" name="packaging" value="marking">-->
-<!--                                <span class="checkbox-custom"></span>-->
-<!--                                Маркировка партии/дата на коробке-->
-<!--                            </label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="form-section">-->
-<!--                        <h3>Дата отгрузки</h3>-->
-<!--                        <div class="input-group date-input">-->
-<!--                            <input type="date" id="shipping-date">-->
-<!--                        </div>-->
-<!--                    </div>-->
-
                     <div class="form-section">
-<!--                        <h3>Счет с НДС</h3>-->
-<!--                        <div class="radio-group">-->
-<!--                            <label class="radio-option">-->
-<!--                                <input type="radio" name="vat" value="needed" checked>-->
-<!--                                <span class="radio-custom"></span>-->
-<!--                                Нужен-->
-<!--                            </label>-->
-
-<!--                            <label class="radio-option">-->
-<!--                                <input type="radio" name="vat" value="not-needed">-->
-<!--                                <span class="radio-custom"></span>-->
-<!--                                Не нужен-->
-<!--                            </label>-->
-<!--                        </div>-->
                     </div>
                 </div>
 
@@ -894,43 +785,6 @@
                                 <input type="text" placeholder="@username или номер телефона">
                             </div>
                         </div>
-
-<!--                        <div class="form-section">-->
-<!--                            <h3>Способ оплаты</h3>-->
-<!--                            <div class="radio-group">-->
-<!--                                <label class="radio-option">-->
-<!--                                    <input type="radio" name="payment" value="cash" checked>-->
-<!--                                    <span class="radio-custom"></span>-->
-<!--                                    Наличные (перевод на карту)-->
-<!--                                </label>-->
-
-<!--                                <label class="radio-option">-->
-<!--                                    <input type="radio" name="payment" value="cashless">-->
-<!--                                    <span class="radio-custom"></span>-->
-<!--                                    Оплата по счету с НДС-->
-<!--                                </label>-->
-
-<!--                                <label class="radio-option">-->
-<!--                                    <input type="radio" name="payment" value="mixed">-->
-<!--                                    <span class="radio-custom"></span>-->
-<!--                                    Оплата по счету без НДС-->
-<!--                                </label>-->
-<!--                            </div>-->
-
-<!--                            <div id="cashless-details" class="sub-options">-->
-<!--                                <div class="input-group">-->
-<!--                                    <label>Реквизиты компании для выставления счёта:</label>-->
-<!--                                    <textarea placeholder="Введите реквизиты компании" rows="4"></textarea>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="form-section">-->
-<!--                            <h3>Адрес для отгрузки</h3>-->
-<!--                            <div class="input-group">-->
-<!--                                <textarea placeholder="Введите полный адрес для отгрузки" rows="3"></textarea>-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </div>
                 </div>
 
@@ -944,7 +798,6 @@
                         <div class="input-group">
                             <label>Транспортная копания (оплачивается отдельно)</label>
                             <select id="transport-company">
-<!--                                <option value="">Выберите ТК</option>-->
                                 <option value="sdek">СДЭК</option>
                                 <option value="pek">ПЭК</option>
                                 <option value="dellin">Деловые линии</option>
@@ -961,75 +814,20 @@
                                 <input type="text" placeholder="Название транспортной компании">
                             </div>
                         </div>
-
-<!--                        <div class="input-group">-->
-<!--                            <label>Доставка до</label>-->
-
-<!--                            <div class="radio-group">-->
-<!--                                <label class="radio-option">-->
-<!--                                    <input type="radio" name="delivery-to" value="door" checked>-->
-<!--                                    <span class="radio-custom"></span>-->
-<!--                                    Двери-->
-<!--                                </label>-->
-
-<!--                                <label class="radio-option">-->
-<!--                                    <input type="radio" name="delivery-to" value="terminal">-->
-<!--                                    <span class="radio-custom"></span>-->
-<!--                                    Терминала ТК-->
-<!--                                </label>-->
-<!--                            </div>-->
-
-<!--                            <div id="terminal-address" class="sub-options">-->
-<!--                                <div class="input-group">-->
-<!--                                    <label>Адрес терминала/отделения (если известно):</label>-->
-<!--                                    <input type="text" placeholder="Адрес терминала">-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                        </div>-->
-
-
-<!--                        <div class="input-group">-->
-<!--                            <label>Доставка до</label>-->
-<!--                            <div class="radio-group">-->
-<!--                                <label class="radio-option">-->
-<!--                                    <input type="radio" name="delivery-to" value="door" checked>-->
-<!--                                    <span class="radio-custom"></span>-->
-<!--                                    Двери-->
-<!--                                </label>-->
-
-<!--                                <label class="radio-option">-->
-<!--                                    <input type="radio" name="delivery-to" value="terminal">-->
-<!--                                    <span class="radio-custom"></span>-->
-<!--                                    Терминала ТК-->
-<!--                                </label>-->
-<!--                            </div>-->
-
-<!--                            <div id="terminal-address" class="sub-options">-->
-<!--                                <div class="input-group">-->
-<!--                                    <label>Адрес терминала/отделения (если известно):</label>-->
-<!--                                    <input type="text" placeholder="Адрес терминала">-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                        </div>-->
-
-
-<!--                    </div>-->
+                    </div>
 
                     <div class="form-section">
-<!--                        <h3>Доставка до</h3>-->
                         <div class="radio-group">
                             <label class="radio-option">
                                 <input type="radio" name="delivery-to" value="door" checked>
                                 <span class="radio-custom"></span>
-                                До двери
+                                Двери
                             </label>
 
                             <label class="radio-option">
                                 <input type="radio" name="delivery-to" value="terminal">
                                 <span class="radio-custom"></span>
-                                До терминала ТК
+                                Терминала ТК
                             </label>
                         </div>
 
@@ -1071,38 +869,27 @@
 </div>
 
 <script>
-
-
-    <!--    selfpickup-->
-
-
-
-
+    // ========== ОБРАБОТЧИК САМОВЫВОЗА ==========
     document.addEventListener('DOMContentLoaded', function() {
         const selfPickupCheckbox = document.getElementById('self-pickup');
         const transportSelect = document.getElementById('transport-company');
         const otherTransportDiv = document.getElementById('other-transport');
-        const otherTransportInput = document.getElementById('other-transport-input');
+        const otherTransportInput = otherTransportDiv.querySelector('input');
 
-        // Функция для обновления состояния формы
         function updateDeliveryOptions() {
             if (selfPickupCheckbox.checked) {
-                // Если выбран самовывоз
                 transportSelect.disabled = true;
                 transportSelect.value = '';
                 otherTransportDiv.style.display = 'none';
                 otherTransportInput.value = '';
                 otherTransportInput.disabled = true;
             } else {
-                // Если самовывоз не выбран
                 transportSelect.disabled = false;
                 otherTransportInput.disabled = false;
-                // Показываем/скрываем поле "Другое" в зависимости от выбора
                 toggleOtherTransport();
             }
         }
 
-        // Функция для показа/скрытия поля "Другое"
         function toggleOtherTransport() {
             if (transportSelect.value === 'other') {
                 otherTransportDiv.style.display = 'block';
@@ -1112,105 +899,66 @@
             }
         }
 
-        // Обработчики событий
         selfPickupCheckbox.addEventListener('change', updateDeliveryOptions);
         transportSelect.addEventListener('change', toggleOtherTransport);
-
-        // Инициализация состояния при загрузке
         updateDeliveryOptions();
     });
 
-
-    // ===============================
-
-    // Получаем поле ввода
+    // ========== КОЛИЧЕСТВО (МИНИМУМ 800) ==========
     const quantityInput = document.getElementById('quantity');
-
-    // Устанавливаем начальное значение 800
     quantityInput.value = 800;
 
-    // Обработчик события потери фокуса (когда кликаем вне поля)
     quantityInput.addEventListener('blur', function() {
         const minValue = 800;
-
-        // Получаем текущее значение
         let currentValue = this.value;
 
-        // Если поле пустое - ставим 800
         if (currentValue === '' || currentValue === null) {
             this.value = minValue;
             return;
         }
 
-        // Преобразуем в число
         let numValue = parseInt(currentValue);
-
-        // Если это не число или меньше 800 - ставим 800
         if (isNaN(numValue) || numValue < minValue) {
             this.value = minValue;
         }
     });
 
-    // Дополнительно: чтобы пользователь мог полностью очистить поле при редактировании
     quantityInput.addEventListener('focus', function() {
-        // Сохраняем текущее значение чтобы можно было редактировать
         this.dataset.previousValue = this.value;
-        // Выделяем весь текст для удобства
         this.select();
     });
 
-    // Обработка нажатия Enter
     quantityInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
             this.blur();
         }
     });
 
-    // const quantityInput = document.getElementById('quantity');
-    // quantityInput.value = 800;
-    //
-    // quantityInput.addEventListener('blur', function() {
-    //     let value = parseInt(this.value);
-    //     if (isNaN(value) || value < 800) {
-    //         this.value = 800;
-    //     }
-    // });
-
-
-
-
-
-
-
-
-
-
-    // Инициализация Fabric.js Canvas
+    // ========== CANVAS И ЛОГОТИП ==========
     let canvas = null;
     let plugImage = null;
     let logoImage = null;
     let maskCircle = null;
+    let engravingEffect = null;
 
     function initCanvas() {
         canvas = new fabric.Canvas('plug-canvas', {
             width: 400,
             height: 400,
-            // backgroundColor: '#ffffff',
             backgroundColor: 'transparent',
-            preserveObjectStacking: true
+            preserveObjectStacking: true,
+            renderOnAddRemove: false
         });
 
-        // Создаем базовое изображение заглушки (простой круг с отверстиями)
         drawPlugBase();
 
-        // Создаем маску в виде круга (область для логотипа)
         maskCircle = new fabric.Circle({
             left: 140,
             top: 140,
             radius: 120,
             fill: 'transparent',
-            stroke: 'rgba(52, 152, 219, 0.5)',
-            strokeWidth: 0,
+            stroke: 'rgba(160, 120, 80, 0.3)',
+            strokeWidth: 1,
             strokeDashArray: [5, 5],
             selectable: false,
             evented: false
@@ -1218,67 +966,239 @@
 
         canvas.add(maskCircle);
         canvas.sendToBack(maskCircle);
-
-        // Прячем placeholder при инициализации canvas
         document.getElementById('canvas-placeholder').style.display = 'none';
     }
 
     function drawPlugBase() {
-        // Очищаем canvas
         canvas.clear();
 
-        // Создаем базовую форму заглушки (серый круг)
-        const plugBase = new fabric.Circle({
+        // Создаем градиент для пластика
+        const gradient = new fabric.Gradient({
+            type: 'radial',
+            coords: {
+                x1: 0.5,
+                y1: 0.5,
+                r1: 0,
+                x2: 0.5,
+                y2: 0.5,
+                r2: 1
+            },
+            colorStops: [
+                { offset: 0, color: '#f5f5f5' },
+                { offset: 0.4, color: '#e8e8e8' },
+                { offset: 0.7, color: '#d8d8d8' },
+                { offset: 1, color: '#c8c8c8' }
+            ]
+        });
+
+        plugImage = new fabric.Circle({
             left: 0,
             top: 0,
             radius: 140,
-            fill: '#e0e0e0',
+            fill: gradient,
             stroke: '#b0b0b0',
             strokeWidth: 2,
             selectable: false,
             evented: false
         });
 
-        // Создаем отверстия для подрозетников
-        const holes = [
-            // {left: 150, top: 150, radius: 10},
-            // {left: 200, top: 150, radius: 10},
-            // {left: 150, top: 200, radius: 10},
-            // {left: 200, top: 200, radius: 10}
-        ];
+        // Добавляем текстуру пластика
+        const textureGroup = [];
+        for (let i = 0; i < 200; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 130;
+            const x = 140 + Math.cos(angle) * distance;
+            const y = 140 + Math.sin(angle) * distance;
+            const size = Math.random() * 0.8 + 0.2;
 
-        const holeObjects = holes.map(hole => new fabric.Circle({
-            left: hole.left,
-            top: hole.top,
-            radius: hole.radius,
-            fill: '#ffffff',
-            stroke: '#b0b0b0',
-            strokeWidth: 1,
+            const dot = new fabric.Circle({
+                left: x - size/2,
+                top: y - size/2,
+                radius: size,
+                fill: 'rgba(180, 180, 180, 0.03)',
+                selectable: false,
+                evented: false
+            });
+            textureGroup.push(dot);
+        }
+
+        // Добавляем легкие царапины и неровности
+        for (let i = 0; i < 30; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 120;
+            const x = 140 + Math.cos(angle) * distance;
+            const y = 140 + Math.sin(angle) * distance;
+            const length = Math.random() * 15 + 5;
+            const width = Math.random() * 0.3 + 0.1;
+
+            const scratch = new fabric.Rect({
+                left: x,
+                top: y,
+                width: length,
+                height: width,
+                fill: 'rgba(200, 200, 200, 0.05)',
+                angle: Math.random() * 180,
+                originX: 'center',
+                originY: 'center',
+                selectable: false,
+                evented: false
+            });
+            textureGroup.push(scratch);
+        }
+
+        // Блик от света
+        const highlight = new fabric.Circle({
+            left: 80,
+            top: 80,
+            radius: 35,
+            fill: 'rgba(255, 255, 255, 0.15)',
             selectable: false,
             evented: false
-        }));
+        });
 
-        // Добавляем все элементы на canvas
-        canvas.add(plugBase);
-        holeObjects.forEach(hole => canvas.add(hole));
+        // Тень для объема
+        const shadow = new fabric.Circle({
+            left: 180,
+            top: 180,
+            radius: 130,
+            fill: 'rgba(0, 0, 0, 0.03)',
+            selectable: false,
+            evented: false
+        });
 
-        // Сохраняем ссылку на основное изображение заглушки
-        plugImage = plugBase;
+        canvas.add(plugImage);
+        canvas.add(shadow);
+        textureGroup.forEach(obj => canvas.add(obj));
+        canvas.add(highlight);
+
+        updateMaterialPreview();
     }
 
-    function loadLogoFromUrl(url) {
-        fabric.Image.fromURL(url, function (img) {
-            // Удаляем предыдущий логотип если был
+    function createEngravingEffect() {
+        if (engravingEffect) {
+            canvas.remove(engravingEffect);
+        }
+
+        // Создаем группу для эффекта гравировки
+        const engravingGroup = [];
+
+        // Создаем эффект углубления (тень от гравировки)
+        const engravingShadow = new fabric.Circle({
+            left: maskCircle.left,
+            top: maskCircle.top,
+            radius: maskCircle.radius,
+            fill: 'rgba(0, 0, 0, 0.15)',
+            originX: 'center',
+            originY: 'center',
+            selectable: false,
+            evented: false,
+            opacity: 0.7,
+            blur: 2
+        });
+        engravingGroup.push(engravingShadow);
+
+        // Создаем эффект блика на краю углубления
+        const engravingHighlight = new fabric.Circle({
+            left: maskCircle.left - 2,
+            top: maskCircle.top - 2,
+            radius: maskCircle.radius - 1,
+            fill: 'rgba(255, 255, 255, 0.1)',
+            originX: 'center',
+            originY: 'center',
+            selectable: false,
+            evented: false,
+            opacity: 0.5
+        });
+        engravingGroup.push(engravingHighlight);
+
+        engravingEffect = new fabric.Group(engravingGroup, {
+            selectable: false,
+            evented: false
+        });
+
+        canvas.add(engravingEffect);
+        canvas.sendToBack(engravingEffect);
+    }
+
+    function applyBrownToneToImage(img) {
+        // Создаем временный канвас для обработки изображения
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+
+        tempCanvas.width = img.width;
+        tempCanvas.height = img.height;
+
+        // Рисуем изображение на временном канвасе
+        tempCtx.drawImage(img._element, 0, 0);
+
+        // Получаем данные пикселей
+        const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+        const data = imageData.data;
+
+        // Преобразуем в коричневые тона (имитация выжженного пластика)
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            const a = data[i + 3];
+
+            if (a > 0) {
+                // Рассчитываем яркость
+                const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+
+                // Оттенки коричневого в зависимости от яркости
+                if (brightness > 0.7) {
+                    // Светлые области - светлый коричневый
+                    data[i] = 210 + Math.random() * 20;     // R
+                    data[i + 1] = 180 + Math.random() * 15; // G
+                    data[i + 2] = 140 + Math.random() * 10; // B
+                } else if (brightness > 0.4) {
+                    // Средние тона - средний коричневый
+                    data[i] = 180 + Math.random() * 15;     // R
+                    data[i + 1] = 140 + Math.random() * 10; // G
+                    data[i + 2] = 100 + Math.random() * 10; // B
+                } else {
+                    // Темные области - темный коричневый/черный
+                    data[i] = 120 + Math.random() * 10;     // R
+                    data[i + 1] = 80 + Math.random() * 8;   // G
+                    data[i + 2] = 50 + Math.random() * 5;    // B
+                }
+
+                // Добавляем текстуру выжженного материала
+                const texture = Math.random() * 20 - 10;
+                data[i] = Math.max(0, Math.min(255, data[i] + texture));
+                data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + texture * 0.8));
+                data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + texture * 0.6));
+            }
+        }
+
+        tempCtx.putImageData(imageData, 0, 0);
+
+        // Создаем новое изображение из обработанных данных
+        const processedImage = new Image();
+        processedImage.src = tempCanvas.toDataURL();
+
+        return new Promise((resolve) => {
+            processedImage.onload = function() {
+                const fabricImg = new fabric.Image(processedImage);
+                resolve(fabricImg);
+            };
+        });
+    }
+
+    async function loadLogoFromUrl(url) {
+        fabric.Image.fromURL(url, async function (originalImg) {
             if (logoImage) {
                 canvas.remove(logoImage);
                 logoImage = null;
             }
 
-            // Начальный масштаб — стараемся вписать в разумный размер
-            const initialScale = Math.min(1, 100 / Math.max(img.width, img.height));
+            // Применяем эффект коричневых тонов
+            const processedImg = await applyBrownToneToImage(originalImg);
 
-            // Подготавливаем объект изображения
-            img.set({
+            const initialScale = Math.min(1, 80 / Math.max(processedImg.width, processedImg.height));
+
+            processedImg.set({
                 left: maskCircle.left,
                 top: maskCircle.top,
                 scaleX: initialScale,
@@ -1289,22 +1209,31 @@
                 hasControls: true,
                 hasBorders: true,
                 lockUniScaling: false,
-                cornerColor: '#3498db',
+                cornerColor: '#8B4513',
                 cornerSize: 10,
-                transparentCorners: false
+                transparentCorners: false,
+                opacity: 0.9,
+                shadow: new fabric.Shadow({
+                    color: 'rgba(0, 0, 0, 0.4)',
+                    blur: 8,
+                    offsetX: 2,
+                    offsetY: 2
+                })
             });
 
-            // Сначала добавляем на канвас без clipPath
-            canvas.add(img);
-            canvas.setActiveObject(img);
+            // Добавляем дополнительные фильтры для эффекта гравировки
+            processedImg.filters.push(
+                new fabric.Image.filters.Contrast({ contrast: 0.3 }),
+                new fabric.Image.filters.Brightness({ brightness: -0.1 })
+            );
+            processedImg.applyFilters();
 
-            // Принудительно обновляем координаты и рендерим
-            img.setCoords();
-            canvas.renderAll();
+            canvas.add(processedImg);
+            canvas.setActiveObject(processedImg);
 
-            // Теперь создаём и применяем маску-обрезку
+            // Создаем и применяем маску-обрезку
             const clipMask = new fabric.Circle({
-                radius: maskCircle.radius,
+                radius: maskCircle.radius - 3, // Немного меньше для эффекта углубления
                 left: maskCircle.left,
                 top: maskCircle.top,
                 originX: 'center',
@@ -1312,34 +1241,25 @@
                 absolutePositioned: true
             });
 
-            img.clipPath = clipMask;
+            processedImg.clipPath = clipMask;
 
-            // Самое важное — заставляем fabric отрисовать объект после установки clipPath
-            // Вариант 1 — микросдвиг (чаще всего помогает)
-            img.left += 0.01;
+            // Корректировка отображения
+            processedImg.left += 0.01;
             canvas.renderAll();
-            img.left -= 0.01;
+            processedImg.left -= 0.01;
             canvas.renderAll();
 
-            // Вариант 2 — дополнительная страховка (можно оставить или убрать)
-            // img.setCoords();
-            // canvas.requestRenderAll();
+            logoImage = processedImg;
 
-            // Сохраняем ссылку
-            logoImage = img;
+            // Создаем эффект углубления
+            createEngravingEffect();
 
-            // Показываем элементы управления
             document.getElementById('logo-controls').style.display = 'block';
             document.getElementById('logo-status').textContent =
-                'Логотип загружен. Перетаскивайте для перемещения, используйте углы для масштабирования.';
-
-            // Скрываем placeholder
+                'Логотип загружен. Эффект гравировки применен.';
             document.getElementById('canvas-placeholder').style.display = 'none';
 
-            // Применяем фильтры (монохром/цветной)
-            applyLogoFilters();
-
-            // Подписываемся на события изменения положения/масштаба
+            // Подписываемся на события изменения
             logoImage.on('moving', updateLogoMask);
             logoImage.on('scaling', updateLogoMask);
             logoImage.on('rotating', updateLogoMask);
@@ -1349,7 +1269,7 @@
         }, function (err) {
             console.error('Ошибка загрузки изображения:', err);
             document.getElementById('logo-status').textContent =
-                'Ошибка загрузки изображения. Проверьте путь к файлу или формат.';
+                'Ошибка загрузки изображения. Проверьте файл.';
             alert('Не удалось загрузить изображение. Проверьте файл.');
         });
     }
@@ -1357,9 +1277,8 @@
     function updateLogoMask() {
         if (!logoImage || !maskCircle) return;
 
-        // Обновляем позицию маски, чтобы она оставалась на месте
         const clipMask = new fabric.Circle({
-            radius: maskCircle.radius,
+            radius: maskCircle.radius - 3,
             left: maskCircle.left,
             top: maskCircle.top,
             originX: 'center',
@@ -1368,23 +1287,69 @@
         });
 
         logoImage.clipPath = clipMask;
+
+        // Обновляем эффект гравировки
+        if (engravingEffect) {
+            engravingEffect.set({
+                left: maskCircle.left,
+                top: maskCircle.top
+            });
+        }
+
         canvas.renderAll();
     }
 
-    function applyLogoFilters() {
-        if (!logoImage) return;
+    function updateMaterialPreview() {
+        const plugType = document.querySelector('input[name="plug-type"]:checked');
 
-        const logoType = document.querySelector('input[name="logo-type"]:checked');
+        if (!plugImage) return;
 
-        if (logoType && logoType.value === 'monochrome') {
-            // Применяем черно-белый фильтр
-            logoImage.filters.push(new fabric.Image.filters.Grayscale());
-            logoImage.applyFilters();
-        } else {
-            // Удаляем фильтры
-            logoImage.filters = [];
-            logoImage.applyFilters();
+        let colors;
+        switch(plugType.value) {
+            case 'pu':
+                // Мягкий полиэтилен - светлее
+                colors = {
+                    light: '#f8f8f8',
+                    medium: '#e8e8e8',
+                    dark: '#d8d8d8'
+                };
+                break;
+
+            case 'extruded':
+                // Экструдированный XPS - гладкий
+                colors = {
+                    light: '#f0f0f0',
+                    medium: '#e0e0e0',
+                    dark: '#d0d0d0'
+                };
+                break;
+
+            default:
+                // Стандартный XPS
+                colors = {
+                    light: '#f5f5f5',
+                    medium: '#e8e8e8',
+                    dark: '#d8d8d8'
+                };
         }
+
+        plugImage.set({
+            fill: new fabric.Gradient({
+                type: 'radial',
+                coords: {
+                    x1: 0.5, y1: 0.5, r1: 0,
+                    x2: 0.5, y2: 0.5, r2: 1
+                },
+                colorStops: [
+                    { offset: 0, color: colors.light },
+                    { offset: 0.4, color: colors.medium },
+                    { offset: 0.7, color: colors.dark },
+                    { offset: 1, color: '#c8c8c8' }
+                ]
+            }),
+            stroke: plugType.value === 'extruded' ? '#b0b0b0' : '#a8a8a8',
+            strokeWidth: plugType.value === 'extruded' ? 1 : 2
+        });
 
         canvas.renderAll();
     }
@@ -1397,18 +1362,18 @@
             top: maskCircle.top
         });
 
-        canvas.renderAll();
+        updateLogoMask();
         document.getElementById('logo-status').textContent = 'Логотип размещен по центру.';
     }
 
     function fitLogoToCircle() {
         if (!logoImage) return;
 
-        const circleDiameter = maskCircle.radius * 2;
+        const circleDiameter = (maskCircle.radius - 3) * 2;
         const logoWidth = logoImage.width * logoImage.scaleX;
         const logoHeight = logoImage.height * logoImage.scaleY;
         const logoMaxDimension = Math.max(logoWidth, logoHeight);
-        const scale = circleDiameter / logoMaxDimension * 0.9; // 90% от диаметра для отступов
+        const scale = circleDiameter / logoMaxDimension * 0.8; // 80% от диаметра
 
         logoImage.set({
             scaleX: logoImage.scaleX * scale,
@@ -1417,14 +1382,14 @@
             top: maskCircle.top
         });
 
-        canvas.renderAll();
+        updateLogoMask();
         document.getElementById('logo-status').textContent = 'Логотип вписан в круг.';
     }
 
     function resetLogo() {
         if (!logoImage) return;
 
-        const scale = Math.min(1, 100 / Math.max(logoImage.width, logoImage.height));
+        const scale = Math.min(1, 80 / Math.max(logoImage.width, logoImage.height));
 
         logoImage.set({
             scaleX: scale,
@@ -1434,7 +1399,7 @@
             angle: 0
         });
 
-        canvas.renderAll();
+        updateLogoMask();
         document.getElementById('logo-status').textContent = 'Логотип сброшен к исходному состоянию.';
     }
 
@@ -1442,109 +1407,79 @@
         if (logoImage) {
             canvas.remove(logoImage);
             logoImage = null;
-            canvas.renderAll();
         }
+
+        if (engravingEffect) {
+            canvas.remove(engravingEffect);
+            engravingEffect = null;
+        }
+
+        canvas.renderAll();
 
         document.getElementById('logo-controls').style.display = 'none';
         document.getElementById('logo-status').textContent = '';
-
-        // Показываем placeholder
         document.getElementById('canvas-placeholder').style.display = 'flex';
-
-        // Сбрасываем выбор файла
         document.getElementById('logo-file').value = '';
         document.getElementById('selected-file').textContent = '';
-
-        // Переключаем на "Без собственного логотипа"
         document.querySelector('input[name="logo"][value="no-logo"]').checked = true;
         updateLogoOptions();
     }
 
-    // Обработчики для формы в левом контейнере
+    // ========== ОБРАБОТЧИКИ ФОРМЫ ==========
     function updateLogoOptions() {
         const logoRadio = document.querySelector('input[name="logo"]:checked');
         const logoOptions = document.getElementById('logo-options');
-        const logoTypeRadios = document.querySelectorAll('input[name="logo-type"]');
-        // const loadLocalLogoBtn = document.getElementById('load-local-logo');
         const logoFileInput = document.getElementById('logo-file');
 
         if (logoRadio.value === 'with-logo') {
             logoOptions.classList.add('active');
-            logoTypeRadios.forEach(radio => {
-                radio.disabled = false;
-                if (!document.querySelector('input[name="logo-type"]:checked')) {
-                    radio.checked = true;
-                }
-            });
-            // loadLocalLogoBtn.disabled = false;
             logoFileInput.disabled = false;
 
-            // Показываем placeholder, если логотип не загружен
             if (!logoImage) {
                 document.getElementById('canvas-placeholder').style.display = 'flex';
             }
         } else {
             logoOptions.classList.remove('active');
-            logoTypeRadios.forEach(radio => radio.disabled = true);
-            // loadLocalLogoBtn.disabled = true;
             logoFileInput.disabled = true;
 
-            // Скрываем контролы для логотипа
             document.getElementById('logo-controls').style.display = 'none';
             document.getElementById('canvas-placeholder').style.display = 'flex';
 
-            // Удаляем логотип с canvas
-            if (logoImage) {
-                canvas.remove(logoImage);
-                logoImage = null;
-                canvas.renderAll();
-            }
-
-            // Сбрасываем выбор файла
-            document.getElementById('logo-file').value = '';
-            document.getElementById('selected-file').textContent = '';
+            removeLogo();
         }
     }
 
-    // Обработчик для переключения опций логотипа
+    // Обработчики для логотипа
     document.querySelectorAll('input[name="logo"]').forEach(radio => {
         radio.addEventListener('change', updateLogoOptions);
     });
 
-    // Обработчик для загрузки локального логотипа (файл logo.png в той же папке)
-    // document.getElementById('load-local-logo').addEventListener('click', function() {
-    //     document.getElementById('logo-status').textContent = 'Загрузка логотипа...';
-    //     loadLogoFromUrl('logo.png');
-    // });
-
-    // Обработчик для загрузки файла с компьютера
     document.getElementById('logo-file').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Показываем имя выбранного файла
         document.getElementById('selected-file').textContent = 'Выбран файл: ' + file.name;
 
         const reader = new FileReader();
         reader.onload = function(event) {
-            document.getElementById('logo-status').textContent = 'Загрузка логотипа...';
+            document.getElementById('logo-status').textContent = 'Загрузка и обработка логотипа...';
             loadLogoFromUrl(event.target.result);
         };
         reader.readAsDataURL(file);
     });
 
-    // Обработчик для типа логотипа (цветной/монохром)
-    document.querySelectorAll('input[name="logo-type"]').forEach(radio => {
-        radio.addEventListener('change', applyLogoFilters);
-    });
-
-    // Обработчики для кнопок управления логотипом
+    // Кнопки управления логотипом
     document.getElementById('center-logo').addEventListener('click', centerLogo);
     document.getElementById('fit-logo').addEventListener('click', fitLogoToCircle);
     document.getElementById('reset-logo').addEventListener('click', resetLogo);
-    // document.getElementById('remove-logo').addEventListener('click', removeLogo);
+    document.getElementById('remove-logo').addEventListener('click', removeLogo);
 
-    // Обработчик для переключения опций подрозетников
+    // Обработчики для типа материала заглушки
+    document.querySelectorAll('input[name="plug-type"]').forEach(radio => {
+        radio.addEventListener('change', updateMaterialPreview);
+    });
+
+    // Обработчики для типа подрозетников
     document.querySelectorAll('input[name="socket-type"]').forEach(radio => {
         radio.addEventListener('change', function() {
             const otherOptions = document.getElementById('other-socket-options');
@@ -1560,15 +1495,13 @@
         });
     });
 
-    // Обработчик для способа оплаты
+    // Обработчики для способа оплаты
     document.querySelectorAll('input[name="payment"]').forEach(radio => {
         radio.addEventListener('change', function() {
             const cashlessDetails = document.getElementById('cashless-details');
             const textarea = cashlessDetails.querySelector('textarea');
 
-            // if (this.value === 'cashless') {
-            if (this.value === 'cashless' || this.value === 'mixed') {
-
+            if (this.value === 'cashless') {
                 cashlessDetails.classList.add('active');
                 textarea.disabled = false;
             } else {
@@ -1578,21 +1511,7 @@
         });
     });
 
-    // Обработчик для транспортной компании
-    document.getElementById('transport-company').addEventListener('change', function() {
-        const otherTransport = document.getElementById('other-transport');
-        const input = otherTransport.querySelector('input');
-
-        if (this.value === 'other') {
-            otherTransport.classList.add('active');
-            input.disabled = false;
-        } else {
-            otherTransport.classList.remove('active');
-            input.disabled = true;
-        }
-    });
-
-    // Обработчик для типа доставки
+    // Обработчики для типа доставки
     document.querySelectorAll('input[name="delivery-to"]').forEach(radio => {
         radio.addEventListener('change', function() {
             const terminalAddress = document.getElementById('terminal-address');
@@ -1608,14 +1527,6 @@
         });
     });
 
-    // Валидация поля количества (только числа)
-    // document.getElementById('quantity').addEventListener('input', function() {
-    //     this.value = this.value.replace(/[^0-9]/g, '');
-    //     if (this.value < 1) {
-    //         this.value = 1;
-    //     }
-    // });
-
     // Обработчик отправки формы
     document.getElementById('submit-form').addEventListener('click', function() {
         const agree = document.getElementById('agree');
@@ -1626,40 +1537,20 @@
             return;
         }
 
-        // Здесь можно добавить отправку данных на сервер
         alert('Заказ отправлен! Мы свяжемся с вами в ближайшее время.');
-
-        // Сброс формы (опционально)
-        // document.querySelectorAll('form input, form textarea, form select').forEach(el => {
-        //     if (el.type !== 'submit' && el.type !== 'button') {
-        //         el.value = '';
-        //     }
-        // });
     });
 
-    // Инициализация состояния при загрузке
+    // ========== ИНИЦИАЛИЗАЦИЯ ==========
     document.addEventListener('DOMContentLoaded', function() {
-        // Инициализируем canvas
         initCanvas();
-
-        // Проверяем состояние логотипа
         updateLogoOptions();
+        updateMaterialPreview();
 
         // Проверяем состояние подрозетников
         const socketRadio = document.querySelector('input[name="socket-type"]:checked');
         if (socketRadio && socketRadio.value === 'other') {
             document.getElementById('other-socket-options').classList.add('active');
         }
-
-        // Устанавливаем минимальную дату отгрузки - сегодня
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('shipping-date').min = today;
-
-        // Устанавливаем дату по умолчанию - через 3 дня
-        const defaultDate = new Date();
-        defaultDate.setDate(defaultDate.getDate() + 3);
-        const defaultDateStr = defaultDate.toISOString().split('T')[0];
-        document.getElementById('shipping-date').value = defaultDateStr;
     });
 </script>
 </body>
