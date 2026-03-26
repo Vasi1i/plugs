@@ -605,65 +605,38 @@
                         </label>
                     </div>
 
-                    <div class="file-upload">
-                        <p style="margin-bottom: 10px; color: #666; font-size: 0.9rem;">
-                            <strong>Форматы логотипа:</strong> PNG, JPG, JPEG, GIF, SVG, BMP, WebP<br>
-                            <span style="font-size: 0.85rem;">Рекомендуется PNG с прозрачным фоном</span>
-                        </p>
-                        <input type="file" id="logo-file" accept="image/*">
-                        <label for="logo-file">Загрузить свой логотип</label>
-                        <p id="selected-file" style="font-size: 0.9rem; margin-top: 5px; color: #666;"></p>
+                    <div id="logo-options" class="sub-options">
+<!--                        <div class="radio-group">-->
+<!--                            <label class="radio-option">-->
+<!--                                <input type="radio" name="logo-type" value="color" disabled>-->
+<!--                                <span class="radio-custom"></span>-->
+<!--                                Цветной-->
+<!--                            </label>-->
+
+<!--                            <label class="radio-option">-->
+<!--                                <input type="radio" name="logo-type" value="monochrome" disabled>-->
+<!--                                <span class="radio-custom"></span>-->
+<!--                                Монохром-->
+<!--                            </label>-->
+<!--                        </div>-->
+
+                        <div class="input-group">
+<!--                            <p>Загрузите логотип из файла (положите файл logo.png в папку с этим HTML-файлом)</p>-->
+<!--                            <button id="load-local-logo" class="logo-btn" disabled style="width: 100%;">Загрузить готовый логотип</button>-->
+                        </div>
+
+                        <div class="file-upload">
+<!--                            <p style="margin-top: 15px;">Или выберите другой файл:</p>-->
+                            <p style="margin-bottom: 10px; color: #666; font-size: 0.9rem;">
+                                <strong>Форматы логотипа:</strong> PNG, JPG, JPEG, GIF, SVG, BMP, WebP<br>
+                                <span style="font-size: 0.85rem;">Рекомендуется PNG с прозрачным фоном</span>
+                            </p>
+                            <input type="file" id="logo-file" accept="image/*" disabled>
+                            <label for="logo-file">Загрузить свой логотип</label>
+                            <p id="selected-file" style="font-size: 0.9rem; margin-top: 5px; color: #666;"></p>
+                        </div>
                     </div>
                 </div>
-<!--                <div class="form-section">-->
-<!--                    <h3>Логотип</h3>-->
-
-<!--&lt;!&ndash;                    <div class="radio-group">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <label class="radio-option">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <input type="radio" name="logo" value="no-logo" checked>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <span class="radio-custom"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                            Без собственного логотипа&ndash;&gt;-->
-<!--&lt;!&ndash;                        </label>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        <label class="radio-option">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <input type="radio" name="logo" value="with-logo">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <span class="radio-custom"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                            С собственным логотипом&ndash;&gt;-->
-<!--&lt;!&ndash;                        </label>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-
-<!--                    <div id="logo-options" class="sub-options">-->
-<!--&lt;!&ndash;                        <div class="radio-group">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <label class="radio-option">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <input type="radio" name="logo-type" value="color" disabled>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="radio-custom"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                Цветной&ndash;&gt;-->
-<!--&lt;!&ndash;                            </label>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                            <label class="radio-option">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <input type="radio" name="logo-type" value="monochrome" disabled>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="radio-custom"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                Монохром&ndash;&gt;-->
-<!--&lt;!&ndash;                            </label>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-
-<!--                        <div class="input-group">-->
-<!--&lt;!&ndash;                            <p>Загрузите логотип из файла (положите файл logo.png в папку с этим HTML-файлом)</p>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <button id="load-local-logo" class="logo-btn" disabled style="width: 100%;">Загрузить готовый логотип</button>&ndash;&gt;-->
-<!--                        </div>-->
-
-<!--                        <div class="file-upload">-->
-<!--&lt;!&ndash;                            <p style="margin-top: 15px;">Или выберите другой файл:</p>&ndash;&gt;-->
-<!--                            <p style="margin-bottom: 10px; color: #666; font-size: 0.9rem;">-->
-<!--                                <strong>Форматы логотипа:</strong> PNG, JPG, JPEG, GIF, SVG, BMP, WebP<br>-->
-<!--                                <span style="font-size: 0.85rem;">Рекомендуется PNG с прозрачным фоном</span>-->
-<!--                            </p>-->
-<!--                            <input type="file" id="logo-file" accept="image/*" disabled>-->
-<!--                            <label for="logo-file">Загрузить свой логотип</label>-->
-<!--                            <p id="selected-file" style="font-size: 0.9rem; margin-top: 5px; color: #666;"></p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
 
                 <div class="form-section">
                     <h3>Тип заглушки</h3>
